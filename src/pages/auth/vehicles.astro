@@ -1,0 +1,15 @@
+---
+import Public from "../../layouts/public.astro"
+import { PageVehicles } from "../../components"
+---
+
+<Public>
+	<PageVehicles client:load />
+</Public>
+
+<script>
+	import {isAuth} from "../../utils"
+	if(!isAuth()) {
+		window.location.href = "/login"
+	}
+</script>

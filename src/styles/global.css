@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    --color-primary: oklch(47.23% 0.120 254.38);
+    --color-secondary: oklch(0.2867 0.12 267.88);
+    --color-success: oklch(0.38 0.12 142.94);
+    --color-warning: oklch(0.9 0.1532 100.59);
+    --color-error: oklch(56.58% 0.194 25.17);
+}
+
+.login_screen {
+    min-height: calc(100vh - 64px);
+}
+
+.login_screen_img {
+    background-image: url(../assets/hero.jpeg);
+}
+
