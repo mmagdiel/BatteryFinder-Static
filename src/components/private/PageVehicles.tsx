@@ -1,24 +1,14 @@
 import { useState } from "react";
 import { AuthVehicles } from "../../hocs";
 
-//import CircularLinkedList from "namastey-circular-linked-list";
-//const list = new CircularLinkedList([1, 2, 3, 4, 5, 6, 7, 8]);
-// import { addBearer } from "../utils";
-// import { queryAuth } from "../services"
 const PageVehicles = () => {
   const [page, setState] = useState<number>(1);
   const [isDisable, setIsDisable] = useState<boolean>(false);
-  //const [isDisable, setIsDisable] = useState<boolean>(false);
   const handleNext = () => setState((page) => page + 1);
   const handlePrev = () => setState((page) => page - 1);
   const handleDisable = () => setIsDisable(true);
   const handleAble = () => setIsDisable(false);
-  //const handleDisable = () => setIsDisable(true);
-  // usePublicPage
-  //  const [token, _] = usePublicPage();
-  //  const bearerToken = addBearer(token);
-  //  const fetch = queryAuth(bearerToken);
-  //  return <AuthProducts fetch={fetch} />;
+
   return (
     <AuthVehicles
       params={page}

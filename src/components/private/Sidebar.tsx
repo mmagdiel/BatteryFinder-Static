@@ -98,14 +98,7 @@ const Sidebar: SidebarProps = ({ handleClose, handleOpen, isExpanded }) => {
         </nav>
       </div>
       <div>
-        <div
-          className={clsx(
-            baseClass,
-            isImages && activeClass,
-            !isImages && unactiveClass
-          )}
-          onClick={handleLogOut}
-        >
+        <div className={baseClass} onClick={handleLogOut}>
           <Power className="w-5 h-5" />
           {isExpanded && <LabelSidebar label="LogOut" />}
         </div>

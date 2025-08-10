@@ -1,14 +1,18 @@
 import type { TableVehiclesProps, VehicleType } from "../../models";
 import type { Vehicles, Vehicle } from "../../models";
 
-import { deleteProduct, updateProduct, createProduct } from "../../services";
+import { deleteVehicle, updateVehicle, createVehicle } from "../../services";
+import { HeadVehicle, BodyVehicle, AsideVehicle } from "./table";
+import { TOKEN, configToken } from "../../models";
+import { useLocalStorageState } from "ahooks";
 import { useState, useEffect } from "react";
+import { TableTitle } from "./TableTitle";
+import { addBearer } from "../../utils";
 import { ModalVehicle } from "./table";
 import { Layout } from "./Layout";
-import { HeadVehicle, BodyVehicle, AsideVehicle } from "./table";
-import { TableTitle } from "./TableTitle";
 
 const TableVehicles: TableVehiclesProps = ({ list, children }) => {
+  const [token, _] = useLocalStorageState(TOKEN, configToken);
   const [idToDelete, setIdToDelete] = useState<number>(0);
   const [vehicles, setVehicles] = useState<Vehicles>(list);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -22,13 +26,14 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
     setVehicles(list);
   }, [list]);
 
+  const headers = { Authorization: addBearer(token) };
   const getTotalChanges = () => unsavedChanges.size + deletedItems.size;
 
   const handleSyncChanges = async () => {
     try {
       const deletePromises = Array.from(deletedItems)
         .filter((id) => id > 0) // Only delete existing products from API
-        .map((id) => deleteProduct(id));
+        .map((id) => deleteVehicle(id, headers));
 
       const createPromises = Array.from(newVehicles)
         .filter((id) => !deletedItems.has(id))
@@ -52,9 +57,8 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
               batteryNumber: vehicle.batteryNumber,
               confirmation: vehicle.confirmation,
               type: vehicle.type,
-              updated_at: new Date().toISOString(),
             };
-            const response = await createProduct(vehicleData);
+            const response = await createVehicle(vehicleData, headers);
             if (response.data) {
               setVehicles((prev) =>
                 prev.map((p) =>
@@ -64,8 +68,8 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString(),
                       }
-                    : p,
-                ),
+                    : p
+                )
               );
             }
             return response;
@@ -96,7 +100,7 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
               confirmation: vehicle.confirmation,
               type: vehicle.type,
             };
-            return updateProduct(id, vehicleData);
+            return updateVehicle(id, vehicleData, headers);
           }
           return Promise.resolve();
         });
@@ -161,8 +165,8 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
               [field]: value,
               updated_at: new Date().toISOString(),
             }
-          : p,
-      ),
+          : p
+      )
     );
     setUnsavedChanges((prev) => new Set([...prev, id]));
   };
@@ -181,7 +185,7 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
       if (deletedItems.has(id)) {
         if (id > 0) {
           // Only call API for existing products
-          await deleteProduct(id);
+          await deleteVehicle(id, headers);
         }
         setVehicles((prev) => prev.filter((p) => p.id !== id));
         setDeletedItems((prev) => {
@@ -210,9 +214,8 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
             batteryNumber: vehicle.batteryNumber,
             confirmation: vehicle.confirmation,
             type: vehicle.type,
-            updated_at: new Date().toISOString(),
           };
-          const response = await createProduct(vehicleData);
+          const response = await createVehicle(vehicleData, headers);
 
           if (response.data) {
             // Replace the temporary product with the one from API
@@ -224,8 +227,8 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
                       created_at: new Date().toISOString(),
                       updated_at: new Date().toISOString(),
                     }
-                  : p,
-              ),
+                  : p
+              )
             );
             setNewVehicles((prev) => {
               const newSet = new Set(prev);
@@ -256,7 +259,7 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
             confirmation: vehicle.confirmation,
             type: vehicle.type,
           };
-          await updateProduct(id, vehicleData);
+          await updateVehicle(id, vehicleData, headers);
         }
       }
 
@@ -284,7 +287,7 @@ const TableVehicles: TableVehiclesProps = ({ list, children }) => {
 
   const handleConfirmDelete = async () => {
     try {
-      await deleteProduct(idToDelete);
+      await deleteVehicle(idToDelete, headers);
       setVehicles((prev) => prev.filter((p) => p.id !== idToDelete));
       console.log(`Vehicles ${idToDelete} deleted successfully`);
     } catch (error) {

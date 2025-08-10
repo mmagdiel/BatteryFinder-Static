@@ -1,11 +1,14 @@
 import type { CardImageProps } from "../../models";
 import type { ChangeEvent } from "react";
 
+import { urlImagesBy, addBearer } from "../../utils";
+import { TOKEN, configToken } from "../../models";
+import { useLocalStorageState } from "ahooks";
 import { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
-import { urlImagesBy } from "../../utils";
 
 const CardImage: CardImageProps = ({ label }) => {
+  const [token, _] = useLocalStorageState(TOKEN, configToken);
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState<string>("");
   const [fileDataURL, setFileDataURL] = useState<string>("");
@@ -43,6 +46,7 @@ const CardImage: CardImageProps = ({ label }) => {
     fetch(urlImagesBy(), {
       method: "POST",
       body: formData,
+      headers: { Authorization: addBearer(token) },
     })
       .then((response) => response.json())
       .then((data) => {

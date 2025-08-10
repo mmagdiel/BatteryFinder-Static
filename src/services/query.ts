@@ -1,8 +1,7 @@
 import type { Query, QueryAuth } from "../models";
-import axios from "axios";
 import { TOKEN } from "../models";
+import axios from "axios";
 
-// addBearer(token)
 const query: Query = (url) =>
   axios
     .get(url, {
@@ -53,10 +52,10 @@ const createAuthAxiosInstance = () => {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
         // Remove quotes if they exist around the token
-        const cleanToken = token.replace(/^"(.*)"$/, '$1');
+        const cleanToken = token.replace(/^"(.*)"$/, "$1");
         // Check if token already starts with Bearer, if not add it
-        config.headers.Authorization = cleanToken.startsWith('Bearer ') 
-          ? cleanToken 
+        config.headers.Authorization = cleanToken.startsWith("Bearer ")
+          ? cleanToken
           : `Bearer ${cleanToken}`;
       }
       return config;
@@ -79,7 +78,11 @@ const queryDashboard: Query = (url) =>
     .get(url)
     .then((res) => res.data)
     .catch((e) => {
-      console.error("Dashboard API Error:", e.response?.status, e.response?.data);
+      console.error(
+        "Dashboard API Error:",
+        e.response?.status,
+        e.response?.data
+      );
       return e.response?.data || { error: "Network error" };
     });
 
@@ -97,7 +100,11 @@ const queryProducts: Query = (url) =>
     .get(url)
     .then((res) => res.data)
     .catch((e) => {
-      console.error("Products API Error:", e.response?.status, e.response?.data);
+      console.error(
+        "Products API Error:",
+        e.response?.status,
+        e.response?.data
+      );
       return e.response?.data || { error: "Network error" };
     });
 
@@ -106,7 +113,11 @@ const queryVehicles: Query = (url) =>
     .get(url)
     .then((res) => res.data)
     .catch((e) => {
-      console.error("Vehicles API Error:", e.response?.status, e.response?.data);
+      console.error(
+        "Vehicles API Error:",
+        e.response?.status,
+        e.response?.data
+      );
       return e.response?.data || { error: "Network error" };
     });
 

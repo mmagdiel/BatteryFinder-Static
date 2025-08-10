@@ -1,13 +1,17 @@
 import type { TableProductsProps, Products, Product } from "../../models";
 
 import { deleteProduct, updateProduct, createProduct } from "../../services";
+import { HeadProduct, BodyProduct, AsideProduct } from "./table";
+import { TOKEN, configToken } from "../../models";
+import { useLocalStorageState } from "ahooks";
 import { useState, useEffect } from "react";
+import { TableTitle } from "./TableTitle";
+import { addBearer } from "../../utils";
 import { ModalProduct } from "./table";
 import { Layout } from "./Layout";
-import { HeadProduct, BodyProduct, AsideProduct } from "./table";
-import { TableTitle } from "./TableTitle";
 
 const TableProducts: TableProductsProps = ({ children, list }) => {
+  const [token, _] = useLocalStorageState(TOKEN, configToken);
   const [idToDelete, setIdToDelete] = useState<number>(0);
   const [products, setProducts] = useState<Products>(list);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -21,13 +25,14 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
     setProducts(list);
   }, [list]);
 
+  const headers = { Authorization: addBearer(token) };
   const getTotalChanges = () => unsavedChanges.size + deletedItems.size;
 
   const handleSyncChanges = async () => {
     try {
       const deletePromises = Array.from(deletedItems)
         .filter((id) => id > 0) // Only delete existing products from API
-        .map((id) => deleteProduct(id));
+        .map((id) => deleteProduct(id, headers));
 
       const createPromises = Array.from(newProducts)
         .filter((id) => !deletedItems.has(id))
@@ -47,7 +52,7 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
               warranty: product.warranty,
               updated_at: new Date().toISOString(),
             };
-            const response = await createProduct(productData);
+            const response = await createProduct(productData, headers);
             if (response.data) {
               setProducts((prev) =>
                 prev.map((p) =>
@@ -57,8 +62,8 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString(),
                       }
-                    : p,
-                ),
+                    : p
+                )
               );
             }
             return response;
@@ -83,7 +88,7 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
               high: product.high,
               warranty: product.warranty,
             };
-            return updateProduct(id, productData);
+            return updateProduct(id, productData, headers);
           }
           return Promise.resolve();
         });
@@ -143,8 +148,8 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
               [field]: value,
               updated_at: new Date().toISOString(),
             }
-          : p,
-      ),
+          : p
+      )
     );
     setUnsavedChanges((prev) => new Set([...prev, id]));
   };
@@ -163,7 +168,7 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
       if (deletedItems.has(id)) {
         if (id > 0) {
           // Only call API for existing products
-          await deleteProduct(id);
+          await deleteProduct(id, headers);
         }
         setProducts((prev) => prev.filter((p) => p.id !== id));
         setDeletedItems((prev) => {
@@ -188,7 +193,7 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
             warranty: product.warranty,
             updated_at: new Date().toISOString(),
           };
-          const response = await createProduct(productData);
+          const response = await createProduct(productData, headers);
 
           if (response.data) {
             // Replace the temporary product with the one from API
@@ -200,8 +205,8 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
                       created_at: new Date().toISOString(),
                       updated_at: new Date().toISOString(),
                     }
-                  : p,
-              ),
+                  : p
+              )
             );
             setNewProducts((prev) => {
               const newSet = new Set(prev);
@@ -226,7 +231,7 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
             high: product.high,
             warranty: product.warranty,
           };
-          await updateProduct(id, productData);
+          await updateProduct(id, productData, headers);
         }
       }
 
@@ -254,7 +259,7 @@ const TableProducts: TableProductsProps = ({ children, list }) => {
 
   const handleConfirmDelete = async () => {
     try {
-      await deleteProduct(idToDelete);
+      await deleteProduct(idToDelete, headers);
       setProducts((prev) => prev.filter((p) => p.id !== idToDelete));
       console.log(`Product ${idToDelete} deleted successfully`);
     } catch (error) {

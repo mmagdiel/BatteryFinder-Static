@@ -12,7 +12,7 @@ const ModalVehicle: ModalVehicleProps = ({
 }) => {
   if (!isModalOpen || !idToDelete) return null;
   const item = list.find((item) => item.id === idToDelete);
-  const itemName = item ? `ID: ${item.id}` : `ID: ${idToDelete}`;
+  const itemName = item ? `Pattern: ${item.pattern}` : `ID: ${idToDelete}`;
   return (
     <div className="modal modal-open">
       <div className="modal-box">

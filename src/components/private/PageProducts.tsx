@@ -1,26 +1,13 @@
 import { useState } from "react";
 import { AuthProducts } from "../../hocs";
-//import DoublyLinked from "doublylinked";
-
-//const list = new DoublyLinked(1, 2, 3, 4, 5, 6, 7, 8);
-//list.insert([1, 2, 3, 4, 5, 6, 7, 8]);
-// import { addBearer } from "../utils";
-// import { queryAuth } from "../services"
 
 const PageProducts = () => {
   const [page, setState] = useState<number>(1);
   const [isDisable, setIsDisable] = useState<boolean>(false);
-  //const [list, setList] = useState<any>(listList)
   const handleNext = () => setState((page) => page + 1);
   const handlePrev = () => setState((page) => page - 1);
   const handleDisable = () => setIsDisable(true);
   const handleAble = () => setIsDisable(false);
-  //console.log(list, page);
-  // usePublicPage
-  //  const [token, _] = usePublicPage();
-  //  const bearerToken = addBearer(token);
-  //  const fetch = queryAuth(bearerToken);
-  //  return <AuthProducts fetch={fetch} />;
 
   return (
     <AuthProducts
