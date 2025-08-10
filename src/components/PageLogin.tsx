@@ -1,15 +1,19 @@
 import type { SubmitHandler } from "react-hook-form";
-import { TOKEN, type LoginValues } from "../models";
+import type { LoginValues } from "../models";
 
-import { useForm } from "react-hook-form";
 import { Header, HeaderLogin } from "../components";
-
-import { mutate } from "../services";
-import { urlLoginBy } from "../utils";
 import { useLocalStorageState } from "ahooks";
+import { useForm } from "react-hook-form";
+import { urlLoginBy } from "../utils";
+import { mutate } from "../services";
+import { TOKEN } from "../models";
 
 const PageLogin = () => {
-  const [_, setValue] = useLocalStorageState(TOKEN, { defaultValue: "" });
+  const [_, setValue] = useLocalStorageState(TOKEN, {
+    defaultValue: "",
+    serializer: (v) => v ?? "",
+    deserializer: (v) => v,
+  });
   const { register, handleSubmit } = useForm<LoginValues>();
   const onSubmit: SubmitHandler<LoginValues> = async (data: LoginValues) => {
     try {

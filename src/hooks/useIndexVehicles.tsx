@@ -1,12 +1,12 @@
 import useSWR from "swr";
-import { query } from "../services";
+import { queryVehicles } from "../services";
 import { urlVehiclesBy } from "../utils";
 
 import type { UseIndexVehicles, IndexVehicles } from "../models";
 
 //const useIndexVehicles: UseIndexVehicles = (fetch) => {
 const useIndexVehicles: UseIndexVehicles = (params) => {
-  const { data, error } = useSWR<IndexVehicles>(urlVehiclesBy(params), query);
+  const { data, error } = useSWR<IndexVehicles>(urlVehiclesBy(params), queryVehicles);
   const isLoading = !error && !data;
   return {
     isLoading,

@@ -1,0 +1,73 @@
+curl 'http://localhost:5500/auth/dashboard' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Language: en-US,en;q=0.9,es;q=0.8' \
+  -H 'Authorization: Bearer "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyLmlkIjoxLCJpYXQiOjE3NTQyMzk4MDMsImV4cCI6MzUwODU2NjAwNiwiaXNzIjoibG9jYWxob3N0OjU1MDAifQ.7ZjVlrodE-31-tYJohpsWTMqOvnNYu92SePBDXfcvRM"' \
+  -H 'Connection: keep-alive' \
+  -H 'Origin: http://localhost:4321' \
+  -H 'Referer: http://localhost:4321/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"'
+
+###
+
+curl 'http://localhost:5500/auth/dashboard' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Language: en-US,en;q=0.9,es;q=0.8' \
+  -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyLmlkIjoxLCJpYXQiOjE3NTQ0Mzg5NDAsImV4cCI6MzUwODk2NDI4MCwiaXNzIjoibG9jYWxob3N0OjU1MDAifQ.odtuNE06KerKcd-HWIYqwh5P8s5spbhwbnLcsFzMdis' \
+  -H 'Connection: keep-alive' \
+  -H 'Origin: http://localhost:4321' \
+  -H 'Referer: http://localhost:4321/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"'
+
+###
+
+@accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyLmlkIjoxLCJpYXQiOjE3NTQ3NTc3MTAsImV4cCI6MzUwOTYwMTgyMCwiaXNzIjoibG9jYWxob3N0OjU1MDAifQ.Wt_RpiqzPP5KASDNKN0EVp2CcpZNLWWNP60VIAJRPbI"
+  
+GET http://localhost:5500/auth/user
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+
+###
+
+curl 'http://localhost:5500/auth/products?page=1' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Language: en-US,en;q=0.9,es;q=0.8' \
+  -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyLmlkIjoxLCJpYXQiOjE3NTQ3NTgyMTUsImV4cCI6MzUwOTYwMjgzMCwiaXNzIjoibG9jYWxob3N0OjU1MDAifQ.yxWwI5A71rracT_Y0ZGz8YOoPE--NSY2_0Paq5S0Kx4' \
+  -H 'Connection: keep-alive' \
+  -H 'Origin: http://localhost:4321' \
+  -H 'Referer: http://localhost:4321/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"'
+
+###
+curl 'http://localhost:5500/auth/dashboard' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Language: en-US,en;q=0.9,es;q=0.8' \
+  -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyLmlkIjoxLCJpYXQiOjE3NTQ3NzYyNzgsImV4cCI6MzUwOTYzODk1NiwiaXNzIjoibG9jYWxob3N0OjU1MDAifQ.BpLQ9XX-TuPeFJ-tD_IgkOl_iTv4y1hbNHGz1zIeW30' \
+  -H 'Connection: keep-alive' \
+  -H 'Origin: http://localhost:4321' \
+  -H 'Referer: http://localhost:4321/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"'

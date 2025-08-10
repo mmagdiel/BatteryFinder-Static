@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { query } from "../services";
+import { queryDashboard } from "../services";
 import { urlDashboardBy } from "../utils";
 import type { MostProduct, Product } from "../models";
 
@@ -21,7 +21,7 @@ const defaultDashboard = {
 };
 
 const useDashboard: UseDashboard = () => {
-  const { data, error } = useSWR<Dashboards>(urlDashboardBy(), query);
+  const { data, error } = useSWR<Dashboards>(urlDashboardBy(), queryDashboard);
   const isLoading = !error && !data;
   return {
     isLoading,

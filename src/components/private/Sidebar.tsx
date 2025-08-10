@@ -1,8 +1,10 @@
 import type { SidebarProps } from "../../models";
 
-import { Upload, BarChart3, TrendingUp, Package } from "lucide-react";
+import { Upload, BarChart3, TrendingUp, Package, Power } from "lucide-react";
 import { LabelSidebar } from "./LabelSidebar";
+import { useLocalStorageState } from "ahooks";
 import { LogoSidebar } from "./LogoSidebar";
+import { TOKEN } from "../../models";
 import clsx from "clsx";
 
 const activeClass = "bg-primary text-primary-content";
@@ -11,6 +13,11 @@ const baseClass =
   "flex items-center p-2 rounded-lg cursor-pointer transition-colors";
 
 const Sidebar: SidebarProps = ({ handleClose, handleOpen, isExpanded }) => {
+  const [_, setValue] = useLocalStorageState(TOKEN, {
+    defaultValue: "",
+    serializer: (v) => v ?? "",
+    deserializer: (v) => v,
+  });
   const handleDashboard = () => {
     window.location.href = "/auth";
   };
@@ -23,6 +30,10 @@ const Sidebar: SidebarProps = ({ handleClose, handleOpen, isExpanded }) => {
   const handleImages = () => {
     window.location.href = "/auth/images";
   };
+  const handleLogOut = () => {
+    setValue("");
+    window.location.href = "/login";
+  };
   const isDashboard = window.location.pathname === "/auth";
   const isProducts = window.location.pathname === "/auth/products";
   const isVehicles = window.location.pathname === "/auth/vehicles";
@@ -30,7 +41,7 @@ const Sidebar: SidebarProps = ({ handleClose, handleOpen, isExpanded }) => {
   return (
     <aside
       className={clsx(
-        "fixed left-0 top-0 h-full bg-base-200 shadow-lg transition-all duration-300 z-50",
+        "fixed left-0 top-0 h-full bg-base-200 shadow-lg transition-all duration-300 z-50 flex flex-col justify-between",
         isExpanded && "w-64",
         !isExpanded && "w-16"
       )}
@@ -85,6 +96,19 @@ const Sidebar: SidebarProps = ({ handleClose, handleOpen, isExpanded }) => {
             {isExpanded && <LabelSidebar label="Images" />}
           </div>
         </nav>
+      </div>
+      <div>
+        <div
+          className={clsx(
+            baseClass,
+            isImages && activeClass,
+            !isImages && unactiveClass
+          )}
+          onClick={handleLogOut}
+        >
+          <Power className="w-5 h-5" />
+          {isExpanded && <LabelSidebar label="LogOut" />}
+        </div>
       </div>
     </aside>
   );
